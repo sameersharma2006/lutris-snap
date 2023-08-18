@@ -96,6 +96,7 @@ parts:
       - libxmuu1
       - mesa-utils
       - mesa-utils-bin
+      - vulkan-tools
     stage:
       - usr/bin/lspci
       - usr/bin/s*
@@ -107,6 +108,10 @@ parts:
       - etc/X11/app-defaults/Xvidtune
       - usr/lib/*/libX*
       - usr/bin/glx*
+      - usr/bin/vk*
+      - usr/bin/vulkaninfo
+    prime:
+      - -usr/bin/x86_64-linux-gnu-cpp*  
       
   pydeps:
     after: [deps]
