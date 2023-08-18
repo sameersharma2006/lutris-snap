@@ -11,10 +11,10 @@ architectures:
 assumes:
   - snapd2.54
 
-lint:
-  ignore:
-    - library:
-        - usr/lib/*/libmagic.so*
+#lint:
+  #ignore:
+    #- library:
+        #- usr/lib/*/libmagic.so*
 
 layout:
   /usr/share/libdrm:
@@ -94,6 +94,8 @@ parts:
       - x11-xserver-utils
       - libxmu6
       - libxmuu1
+      - mesa-utils
+      - mesa-utils-bin
     stage:
       - usr/bin/lspci
       - usr/bin/s*
@@ -104,6 +106,7 @@ parts:
       - usr/lib/*/libmagic.so*
       - etc/X11/app-defaults/Xvidtune
       - usr/lib/*/libX*
+      - usr/bin/glx*
       
   pydeps:
     after: [deps]
