@@ -100,6 +100,7 @@ parts:
       - psmisc 
       - cabextract 
       - p7zip
+      - libmspack0
     stage:
       - usr/bin/lspci
       - usr/bin/s*
@@ -117,6 +118,7 @@ parts:
       - usr/bin/cabextract
       - usr/bin/7zr
       - usr/bin/p7zip
+      - usr/lib/*/libmspack*
     prime:
       - -usr/bin/x86_64-linux-gnu-cpp*  
       
