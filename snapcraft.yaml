@@ -65,13 +65,13 @@ parts:
     plugin: nil
     stage-packages:
       - pciutils
-      - libmagic1
+      - libpci3
       - python3-gi
     stage:
       - usr/bin/lspci
       - usr/bin/setpci
       - usr/sbin/update-pciids
-      - usr/lib/*/libmagic.so*
+      - usr/lib/*/libpci.so*
       - usr/lib/python3/dist-packages/gi
       - usr/lib/python3/dist-packages/pygtkcompat
       
