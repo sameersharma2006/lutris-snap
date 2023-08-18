@@ -1,0 +1,1 @@
+pip install --prefix=$CRAFT_PART_INSTALL/usr evdev==1.6.1
