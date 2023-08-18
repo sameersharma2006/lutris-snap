@@ -15,9 +15,21 @@ lint:
   ignore:
     - library:
         - usr/lib/*/libmagic.so*
-      
+
+layout:
+  /usr/share/libdrm:
+    bind: $SNAP/graphics/libdrm
+  /usr/share/drirc.d:
+    symlink: $SNAP/graphics/drirc.d
+  /usr/share/X11/XErrorDB:
+    symlink: $SNAP/graphics/X11/XErrorDB
+  /usr/share/X11/locale:
+    symlink: $SNAP/graphics/X11/locale
+        
 apps: 
   lutris:
+    command-chain:
+      - bin/graphics-core22-wrapper
     command: usr/bin/lutris
     extensions: [gnome]
     environment:
@@ -46,6 +58,12 @@ apps:
       - system-observe
       - physical-memory-observe
       - upower-observe
+
+plugs:
+  graphics-core22:
+    interface: content
+    target: $SNAP/graphics
+    default-provider: mesa-core22
       
 slots:    
   lutris:
@@ -99,9 +117,19 @@ parts:
       pip install --prefix=$CRAFT_PART_INSTALL/usr setproctitle==1.3.2 
       pip install --prefix=$CRAFT_PART_INSTALL/usr python-magic==0.4.27
       pip install --prefix=$CRAFT_PART_INSTALL/usr lxml==4.9.3
+  
+  graphics-core22:
+    after: [pydeps]
+    source: https://github.com/MirServer/graphics-core22.git
+    plugin: dump
+    override-prime: |
+      craftctl default
+      ${CRAFT_PART_SRC}/bin/graphics-core22-cleanup mesa-core22 nvidia-core22
+    prime:
+      - bin/graphics-core22-wrapper
      
   cleanup:
-    after: [pydeps]
+    after: [graphics-core22]
     plugin: nil
     build-snaps: [core22, gtk-common-themes, gnome-42-2204]
     override-prime: |
