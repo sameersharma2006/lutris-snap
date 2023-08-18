@@ -74,6 +74,8 @@ parts:
       - libpci3
       - libmagic1
       - x11-xserver-utils
+      - libxmu6
+      - libxmuu1
     stage:
       - usr/bin/lspci
       - usr/bin/s*
@@ -83,6 +85,7 @@ parts:
       - usr/lib/*/libpci.so*
       - usr/lib/*/libmagic.so*
       - etc/X11/app-defaults/Xvidtune
+      - usr/lib/*/libX*
       
   pydeps:
     after: [deps]
