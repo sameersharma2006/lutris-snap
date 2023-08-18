@@ -11,10 +11,10 @@ architectures:
 assumes:
   - snapd2.54
 
-#lint:
-  #ignore:
-    #- library:
-        #- usr/lib/*/libmagic.so*
+lint:
+  ignore:
+    - library:
+        - usr/lib/*/libmagic.so*
 
 layout:
   /usr/share/libdrm:
