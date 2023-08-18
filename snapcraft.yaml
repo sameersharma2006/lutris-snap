@@ -66,11 +66,14 @@ parts:
     stage-packages:
       - pciutils
       - libmagic1
+      - python3-gi
     stage:
       - usr/bin/lspci
       - usr/bin/setpci
       - usr/sbin/update-pciids
       - usr/lib/*/libmagic.so*
+      - usr/lib/python3/dist-packages/gi
+      - usr/lib/python3/dist-packages/pygtkcompat
       
   pydeps:
     after: [deps]
