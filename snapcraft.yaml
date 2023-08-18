@@ -10,6 +10,7 @@ architectures:
 
 assumes:
   - snapd2.58
+  - command-chain
 
 lint:
   ignore:
@@ -25,10 +26,13 @@ layout:
     symlink: $SNAP/graphics/X11/XErrorDB
   /usr/share/X11/locale:
     symlink: $SNAP/graphics/X11/locale
+  /usr/share/zenity:
+    bind: $SNAP/usr/share/zenity   
  
 apps: 
   lutris:
     command-chain:
+      - bin/migrate-config
       - bin/graphics-core22-wrapper
     command: usr/bin/lutris
     extensions: [gnome]
@@ -64,6 +68,11 @@ plugs:
     interface: content
     target: $SNAP/graphics
     default-provider: mesa-core22
+  lutris-user-config:
+    interface: personal-files
+    read:
+      - $HOME/.config/lutris
+      - $HOME/.local/share/lutris   
       
 slots:    
   lutris:
@@ -131,9 +140,25 @@ parts:
       pip install --prefix=$CRAFT_PART_INSTALL/usr python-magic==0.4.27
       pip install --prefix=$CRAFT_PART_INSTALL/usr lxml==4.9.3
       pip install --prefix=$CRAFT_PART_INSTALL/usr protobuf==4.23.4
+  
+  migrator:
+    plugin: dump
+    after: [pydeps]
+    source: .
+    stage-packages:
+      - zenity
+    override-pull: |
+      craftctl default
+      chmod a+x migrate-config
+    stage:
+      - bin/migrate-config
+      - usr/bin/zenity
+      - usr/share/zenity
+    organize:
+      migrate-config: bin/migrate-config
     
   graphics-core22:
-    after: [pydeps]
+    after: [migrator]
     source: https://github.com/MirServer/graphics-core22.git
     plugin: dump
     override-prime: |
