@@ -25,11 +25,7 @@ layout:
     symlink: $SNAP/graphics/X11/XErrorDB
   /usr/share/X11/locale:
     symlink: $SNAP/graphics/X11/locale
-  /usr/lib/x86_64-linux-gnu/libgirepository-1.0.so.1:
-    symlink: $SNAP/gnome-platform/usr/lib/x86_64-linux-gnu/libgirepository-1.0.so.1.0.0
-  /usr/lib/x86_64-linux-gnu/libgirepository-1.0.so:
-    symlink: $SNAP/gnome-platform/usr/lib/x86_64-linux-gnu/libgirepository-1.0.so.1.0.0     
-        
+ 
 apps: 
   lutris:
     command-chain:
@@ -96,8 +92,6 @@ parts:
       - libpci3
       - libmagic1
       - x11-xserver-utils
-      - libxmu6
-      - libxmuu1
       - mesa-utils
       - mesa-utils-bin
       - vulkan-tools
@@ -107,14 +101,11 @@ parts:
       - libmspack0
     stage:
       - usr/bin/lspci
-      - usr/bin/s*
-      - usr/bin/x*
-      - usr/bin/iceauth
+      - usr/bin/setpci
+      - usr/bin/xrandr
       - usr/sbin/update-pciids
       - usr/lib/*/libpci.so*
       - usr/lib/*/libmagic.so*
-      - etc/X11/app-defaults/Xvidtune
-      - usr/lib/*/libX*
       - usr/bin/glx*
       - usr/bin/vk*
       - usr/bin/vulkaninfo
@@ -138,6 +129,7 @@ parts:
       pip install --prefix=$CRAFT_PART_INSTALL/usr setproctitle==1.3.2 
       pip install --prefix=$CRAFT_PART_INSTALL/usr python-magic==0.4.27
       pip install --prefix=$CRAFT_PART_INSTALL/usr lxml==4.9.3
+      pip install --prefix=$CRAFT_PART_INSTALL/usr protobuf==4.23.4
     
   graphics-core22:
     after: [pydeps]
