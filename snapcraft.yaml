@@ -11,11 +11,10 @@ architectures:
 assumes:
   - snapd2.54
 
-
 lint:
   ignore:
     - library:
-      - usr/lib/*/libmagic.so*
+        - usr/lib/*/libmagic.so*
       
 apps: 
   lutris:
@@ -74,13 +73,17 @@ parts:
       - pciutils
       - libpci3
       - libmagic1
+      - x11-xserver-utils
     stage:
       - usr/bin/lspci
-      - usr/bin/setpci
+      - usr/bin/s*
+      - usr/bin/x*
+      - usr/bin/iceauth
       - usr/sbin/update-pciids
       - usr/lib/*/libpci.so*
       - usr/lib/*/libmagic.so*
-    
+      - etc/X11/app-defaults/Xvidtune
+      
   pydeps:
     after: [deps]
     plugin: nil
