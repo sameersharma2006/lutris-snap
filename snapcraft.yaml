@@ -39,7 +39,6 @@ apps:
     environment:
       APPIMAGE_EXTRACT_AND_RUN: 1
       PYTHONPATH: ${SNAP}/lib/python3.10/site-packages:${SNAP}/usr/lib/python3/dist-packages:${SNAP}/usr/local/lib/python3.10/dist-packages
-      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/local/bin
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
     plugs:
