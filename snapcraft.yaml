@@ -113,6 +113,7 @@ parts:
       - usr/bin/cabextract
       - usr/bin/7zr
       - usr/bin/p7zip
+      - usr/lib/p7zip
       - usr/lib/*/libmspack*
     prime:
       - -usr/bin/x86_64-linux-gnu-cpp*  
