@@ -150,6 +150,7 @@ parts:
       pip install --prefix=$CRAFT_PART_INSTALL/usr python-magic==0.4.27
       pip install --prefix=$CRAFT_PART_INSTALL/usr lxml==4.9.3
       pip install --prefix=$CRAFT_PART_INSTALL/usr protobuf==4.23.4
+      pip install --prefix=$CRAFT_PART_INSTALL/usr moddb==0.8.1
   
   evdev:
     after: [pydeps]
