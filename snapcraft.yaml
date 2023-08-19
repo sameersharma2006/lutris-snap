@@ -9,7 +9,7 @@ architectures:
   - build-on: amd64
 
 assumes:
-  - snapd2.58
+  - snapd2.55
   - command-chain
 
 lint:
