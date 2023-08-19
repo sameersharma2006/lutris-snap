@@ -39,6 +39,7 @@ apps:
     environment:
       APPIMAGE_EXTRACT_AND_RUN: 1
       PYTHONPATH: ${SNAP}/lib/python3.10/site-packages:${SNAP}/usr/lib/python3/dist-packages:${SNAP}/usr/local/lib/python3.10/dist-packages
+      TMPDIR: $XDG_RUNTIME_DIR
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
     plugs:
@@ -107,6 +108,7 @@ parts:
       - cabextract 
       - p7zip
       - libmspack0
+      - libxss1
     stage:
       - usr/bin/lspci
       - usr/bin/setpci
@@ -123,6 +125,7 @@ parts:
       - usr/bin/p7zip
       - usr/lib/p7zip
       - usr/lib/*/libmspack*
+      - usr/lib/*/libXss.so*
     prime:
       - -usr/bin/x86_64-linux-gnu-cpp*  
       
