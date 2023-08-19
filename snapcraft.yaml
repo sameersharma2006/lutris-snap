@@ -110,6 +110,7 @@ parts:
       - p7zip
       - libmspack0
       - libxss1
+      - unzip
     stage:
       - usr/bin/lspci
       - usr/bin/setpci
@@ -127,6 +128,10 @@ parts:
       - usr/lib/p7zip
       - usr/lib/*/libmspack*
       - usr/lib/*/libXss.so*
+      - usr/bin/funzip
+      - usr/bin/unzip*
+      - usr/bin/zip*
+      - usr/lib/mime/packages/unzip
     prime:
       - -usr/bin/x86_64-linux-gnu-cpp*  
       
