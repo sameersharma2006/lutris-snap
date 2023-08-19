@@ -63,7 +63,6 @@ apps:
       - hardware-observe
       - mount-observe
       - system-observe
-      - physical-memory-observe
       - upower-observe
 
 plugs:
