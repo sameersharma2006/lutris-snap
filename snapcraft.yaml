@@ -29,9 +29,9 @@ layout:
     symlink: $SNAP/graphics/X11/locale
   /usr/share/zenity:
     bind: $SNAP/usr/share/zenity 
-  /usr/lib/p7zip/7zr:
-    symlink: $SNAP/usr/lib/p7zip/7zr
- 
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libgirepository-1.0.so.1:
+    symlink: $SNAP/gnome-platform/usr/lib/$CRAFT_ARCH_TRIPLET/libgirepository-1.0.so.1
+  
 apps: 
   lutris:
     command-chain:
@@ -134,7 +134,7 @@ parts:
       - usr/bin/zip*
       - usr/lib/mime/packages/unzip
     prime:
-      - -usr/bin/x86_64-linux-gnu-cpp*  
+      - -usr/bin/$CRAFT_ARCH_TRIPLET-cpp*  
       
   pydeps:
     after: [deps]

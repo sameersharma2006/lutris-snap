@@ -1,1 +1,11 @@
 pip install --prefix=$CRAFT_PART_INSTALL/usr evdev==1.6.1
+
+
+Layout:
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libgirepository-1.0.so:
+    symlink: $SNAP/gnome-platform/usr/lib/$CRAFT_ARCH_TRIPLET/libgirepository-1.0.so
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libgirepository-1.0.so.1.0.0:
+    symlink: $SNAP/gnome-platform/usr/lib/$CRAFT_ARCH_TRIPLET/libgirepository-1.0.so.1.0.0 
+  /usr/lib/p7zip/7zr:
+    symlink: $SNAP/usr/lib/p7zip/7zr          
+ 
