@@ -112,6 +112,8 @@ parts:
       - libmspack0
       - libxss1
       - unzip 
+      - libsdl2-2.0-0
+      - libffi8
     stage:
       - usr/bin/lspci
       - usr/bin/setpci
@@ -133,6 +135,8 @@ parts:
       - usr/bin/unzip*
       - usr/bin/zip*
       - usr/lib/mime/packages/unzip
+      - usr/lib/*/libSDL2-2.0.so*
+      - usr/lib/*/libffi.so*
     prime:
       - -usr/bin/$CRAFT_ARCH_TRIPLET-cpp*  
       
