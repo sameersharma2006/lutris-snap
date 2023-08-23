@@ -34,6 +34,8 @@ layout:
     bind: $SNAP/usr/share/zenity 
   /usr/lib/$CRAFT_ARCH_TRIPLET/libgirepository-1.0.so.1:
     symlink: $SNAP/gnome-platform/usr/lib/$CRAFT_ARCH_TRIPLET/libgirepository-1.0.so.1
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libffi.so.7:
+    symlink: $SNAP/gnome-platform/usr/lib/$CRAFT_ARCH_TRIPLET/libffi.so.7  
   
 apps: 
   lutris:
@@ -93,7 +95,6 @@ parts:
     parse-info: [usr/share/metainfo/net.lutris.Lutris.metainfo.xml]
     meson-parameters:
       - --prefix=/usr
-      - --buildtype=release
     override-pull: |
       craftctl default
       sed -e 's|Icon=lutris|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/lutris.svg|' -i  share/applications/net.lutris.Lutris.desktop 
@@ -116,7 +117,6 @@ parts:
       - libxss1
       - unzip 
       - libsdl2-2.0-0
-      - libffi8
       - libdecor-0-0
     stage:
       - usr/bin/lspci
@@ -140,7 +140,6 @@ parts:
       - usr/bin/zip*
       - usr/lib/mime/packages/unzip
       - usr/lib/*/libSDL2-2.0.so*
-      - usr/lib/*/libffi.so*
       - usr/lib/*/libdecor-0.so*
     prime:
       - -usr/bin/$CRAFT_ARCH_TRIPLET-cpp*  
