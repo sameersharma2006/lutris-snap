@@ -91,7 +91,6 @@ parts:
       - libxss1
       - unzip 
       - libsdl2-2.0-0
-      - libdecor-0-0
       - libxv1
     stage:
       - usr/bin/lspci
