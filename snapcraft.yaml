@@ -74,9 +74,9 @@ slots:
 parts:
   lutris:
     source: https://github.com/lutris/lutris.git
-    #source-tag: ''
-    plugin: meson
     parse-info: [usr/share/metainfo/net.lutris.Lutris.metainfo.xml]
+    plugin: meson
+    meson-version: 1.2.1 
     meson-parameters:
       - --prefix=/usr
     override-pull: |
@@ -160,17 +160,13 @@ parts:
       - -bin/activate.fish
       - -bin/Activate.ps1
       - -bin/python
-      - -bin/python3
-      - -bin/python3.8
-      - -bin/pip
-      - -bin/pip3
-      - -bin/pip3.11
-      - -bin/pip3.10
+      - -bin/python3*
+      - -bin/pip*
       - -bin/wheel
       - -pyvenv.cfg
-      - -lib/python3.10/site-packages/setuptools*
-      - -lib/python3.10/site-packages/pip*
-      - -lib/python3.10/site-packages/wheel*
+      - -lib/python3.8/site-packages/setuptools*
+      - -lib/python3.8/site-packages/pip*
+      - -lib/python3.8/site-packages/wheel*
       - -share/python-wheels
       - -share/doc
       - -share/man
