@@ -114,6 +114,7 @@ parts:
       - unzip 
       - libsdl2-2.0-0
       - libdecor-0-0
+      - libxv1
     stage:
       - usr/bin/lspci
       - usr/bin/setpci
@@ -137,6 +138,7 @@ parts:
       - usr/lib/mime/packages/unzip
       - usr/lib/*/libSDL2-2.0.so*
       - usr/lib/*/libdecor-0.so*
+      - usr/lib/*/libXv.so*
     prime:
       - -usr/bin/$CRAFT_ARCH_TRIPLET-cpp*  
       
