@@ -12,16 +12,6 @@ assumes:
   - snapd2.55
   - command-chain
 
-lint:
-  ignore:
-    - library:
-        - usr/lib/*/libmagic.so*
-        - usr/lib/*/libXss.so*
-        - usr/lib/*/libSDL2-2.0.so*
-        - usr/lib/*/libffi.so*
-        - usr/lib/*/libdecor-0.so*
-        - usr/lib/*/libXv.so*
-
 layout:
   /usr/share/zenity:
     bind: $SNAP/usr/share/zenity 
