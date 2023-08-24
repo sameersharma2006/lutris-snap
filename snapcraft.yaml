@@ -93,7 +93,8 @@ parts:
       - unzip 
       - libsdl2-2.0-0
       - libxv1
-    stage:
+      - libtheora0
+    prime:
       - usr/bin/lspci
       - usr/bin/setpci
       - usr/bin/xrandr
@@ -117,9 +118,8 @@ parts:
       - usr/lib/*/libSDL2-2.0.so*
       - usr/lib/*/libdecor-0.so*
       - usr/lib/*/libXv.so*
-    prime:
-      - -usr/bin/$SNAPCRAFT_ARCH_TRIPLET-cpp*  
-      
+      - usr/lib/*/libtheora*
+   
   pydeps:
     after: [deps]
     plugin: nil
