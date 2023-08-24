@@ -123,7 +123,7 @@ parts:
     after: [deps]
     plugin: nil
     override-build: |
-      craftctl default
+      snapcraftctl build
       pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr Pillow==10.0.0
       pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr requests==2.31.0
       pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr Yaml8==0.1.2
