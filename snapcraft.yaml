@@ -24,7 +24,7 @@ apps:
     extensions: [gnome-3-38]
     environment:
       APPIMAGE_EXTRACT_AND_RUN: 1
-      PYTHONPATH: ${SNAP}/lib64/python3.8/site-packages:${SNAP}/lib/python3.8/site-packages:${SNAP}/usr/lib/python3/dist-packages:${SNAP}/usr/lib/python3.8/dist-packages
+      PYTHONPATH: ${SNAP}/lib/python3.8/site-packages:${SNAP}/usr/lib/python3/dist-packages:${SNAP}/usr/lib/python3.8/site-packages
       TMPDIR: $XDG_RUNTIME_DIR
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
