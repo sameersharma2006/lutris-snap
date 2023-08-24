@@ -24,7 +24,7 @@ apps:
     extensions: [gnome-3-38]
     environment:
       APPIMAGE_EXTRACT_AND_RUN: 1
-      PYTHONPATH: ${SNAP}/lib64/python3.8/site-packages:${SNAP}/lib/python3.8/site-packages:${SNAP}/usr/lib/python3/dist-packages:${SNAP}/usr/local/lib/python3.8/dist-packages
+      PYTHONPATH: ${SNAP}/lib64/python3.8/site-packages:${SNAP}/lib/python3.8/site-packages:${SNAP}/usr/lib/python3/dist-packages:${SNAP}/usr/lib/python3.8/dist-packages
       TMPDIR: $XDG_RUNTIME_DIR
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
@@ -64,6 +64,7 @@ slots:
 parts:
   lutris:
     source: https://github.com/lutris/lutris.git
+    source-commit: 4bb5c2a1a1fbc35a6c9af946786bef3f5c1aa8d7
     parse-info: [usr/share/metainfo/net.lutris.Lutris.metainfo.xml]
     plugin: meson
     meson-version: 1.2.1 
@@ -154,9 +155,8 @@ parts:
       - -lib/**/setuptools*
       - -lib/**/pip*
       - -lib/**/wheel*
-      - -share/python-wheels
-      - -share/doc
-      - -share/man
+      - -share
+      - -include
      
   migrator:
     plugin: dump
