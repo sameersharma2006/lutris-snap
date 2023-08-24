@@ -32,11 +32,7 @@ layout:
     symlink: $SNAP/graphics/X11/locale
   /usr/share/zenity:
     bind: $SNAP/usr/share/zenity 
-  /usr/lib/$CRAFT_ARCH_TRIPLET/libgirepository-1.0.so.1:
-    symlink: $SNAP/gnome-platform/usr/lib/$CRAFT_ARCH_TRIPLET/libgirepository-1.0.so.1
-  /usr/lib/$CRAFT_ARCH_TRIPLET/libffi.so.7:
-    symlink: $SNAP/gnome-platform/usr/lib/$CRAFT_ARCH_TRIPLET/libffi.so.7  
-  
+
 apps: 
   lutris:
     command-chain:
@@ -179,6 +175,7 @@ parts:
       - -bin/pip
       - -bin/pip3
       - -bin/pip3.11
+      - -bin/pip3.10
       - -bin/wheel
       - -pyvenv.cfg
       - -lib/python3.10/site-packages/setuptools*
