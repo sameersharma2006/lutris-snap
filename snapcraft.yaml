@@ -32,6 +32,8 @@ layout:
     symlink: $SNAP/graphics/X11/locale
   /usr/share/zenity:
     bind: $SNAP/usr/share/zenity 
+  /usr/lib/p7zip/7zr:
+    symlink: $SNAP/usr/lib/p7zip/7zr  
 
 apps: 
   lutris:
