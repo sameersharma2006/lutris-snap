@@ -20,6 +20,7 @@ lint:
         - usr/lib/*/libSDL2-2.0.so*
         - usr/lib/*/libffi.so*
         - usr/lib/*/libdecor-0.so*
+        - usr/lib/*/libXv.so*
 
 layout:
   /usr/share/libdrm:
