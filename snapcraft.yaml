@@ -82,7 +82,7 @@ parts:
       - libmagic1
       - x11-xserver-utils
       - mesa-utils
-      - mesa-utils-bin
+      - mesa-utils-extra
       - vulkan-tools
       - psmisc 
       - cabextract 
