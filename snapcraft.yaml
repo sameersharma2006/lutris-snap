@@ -1,5 +1,5 @@
 name: lutris
-base: core20
+base: core22
 adopt-info: lutris
 grade: stable
 confinement: strict
@@ -9,22 +9,41 @@ architectures:
   - build-on: amd64
 
 assumes:
-  - snapd2.55
+  - snapd2.56
   - command-chain
 
+lint:
+  ignore:
+    - library:
+        - usr/lib/*/libmagic.so*
+        - usr/lib/*/libXss.so*
+        - usr/lib/*/libSDL2-2.0.so*
+        - usr/lib/*/libffi.so*
+        - usr/lib/*/libdecor-0.so*
+        - usr/lib/*/libXv.so*
+
 layout:
+  /usr/share/libdrm:
+    bind: $SNAP/graphics/libdrm
+  /usr/share/drirc.d:
+    symlink: $SNAP/graphics/drirc.d
+  /usr/share/X11/XErrorDB:
+    symlink: $SNAP/graphics/X11/XErrorDB
+  /usr/share/X11/locale:
+    symlink: $SNAP/graphics/X11/locale
   /usr/share/zenity:
     bind: $SNAP/usr/share/zenity 
-  
+
 apps: 
   lutris:
     command-chain:
       - bin/migrate-config
+      - bin/graphics-core22-wrapper
     command: usr/bin/lutris
-    extensions: [gnome-3-38]
+    extensions: [gnome]
     environment:
       APPIMAGE_EXTRACT_AND_RUN: 1
-      PYTHONPATH: ${SNAP}/lib/python3.8/site-packages:${SNAP}/usr/lib/python3/dist-packages:${SNAP}/usr/lib/python3.8/site-packages
+      PYTHONPATH: ${SNAP}/lib/python3.10/site-packages:${SNAP}/usr/lib/python3/dist-packages:${SNAP}/usr/local/lib/python3.10/dist-packages
       TMPDIR: $XDG_RUNTIME_DIR
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
@@ -49,6 +68,10 @@ apps:
       - upower-observe
 
 plugs:
+  graphics-core22:
+    interface: content
+    target: $SNAP/graphics
+    default-provider: mesa-core22
   lutris-user-config:
     interface: personal-files
     read:
@@ -64,14 +87,12 @@ slots:
 parts:
   lutris:
     source: https://github.com/lutris/lutris.git
-    source-commit: 4bb5c2a1a1fbc35a6c9af946786bef3f5c1aa8d7
-    parse-info: [usr/share/metainfo/net.lutris.Lutris.metainfo.xml]
     plugin: meson
-    meson-version: 1.2.1 
+    parse-info: [usr/share/metainfo/net.lutris.Lutris.metainfo.xml]
     meson-parameters:
       - --prefix=/usr
     override-pull: |
-      snapcraftctl pull
+      craftctl default
       sed -e 's|Icon=lutris|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/lutris.svg|' -i  share/applications/net.lutris.Lutris.desktop 
   
   deps:
@@ -83,7 +104,7 @@ parts:
       - libmagic1
       - x11-xserver-utils
       - mesa-utils
-      - mesa-utils-extra
+      - mesa-utils-bin
       - vulkan-tools
       - psmisc 
       - cabextract 
@@ -92,8 +113,8 @@ parts:
       - libxss1
       - unzip 
       - libsdl2-2.0-0
+      - libdecor-0-0
       - libxv1
-      - libtheora0
     prime:
       - usr/bin/lspci
       - usr/bin/setpci
@@ -118,45 +139,44 @@ parts:
       - usr/lib/*/libSDL2-2.0.so*
       - usr/lib/*/libdecor-0.so*
       - usr/lib/*/libXv.so*
-      - usr/lib/*/libtheora*
-   
+    
   pydeps:
     after: [deps]
     plugin: nil
     override-build: |
-      snapcraftctl build
-      pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr Pillow==10.0.0
-      pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr requests==2.31.0
-      pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr Yaml8==0.1.2
-      pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr distro==1.8.0 
-      pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr setproctitle==1.3.2 
-      pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr python-magic==0.4.27
-      pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr lxml==4.9.3
-      pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr protobuf==3.20.3
-      pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr moddb==0.8.1
-      pip install --prefix=$SNAPCRAFT_PART_INSTALL/usr pypresence==4.3.0
-  
+      craftctl default
+      pip install --prefix=$CRAFT_PART_INSTALL/usr Pillow==10.0.0
+      pip install --prefix=$CRAFT_PART_INSTALL/usr requests==2.31.0
+      pip install --prefix=$CRAFT_PART_INSTALL/usr Yaml8==0.1.2
+      pip install --prefix=$CRAFT_PART_INSTALL/usr distro==1.8.0 
+      pip install --prefix=$CRAFT_PART_INSTALL/usr setproctitle==1.3.2 
+      pip install --prefix=$CRAFT_PART_INSTALL/usr python-magic==0.4.27
+      pip install --prefix=$CRAFT_PART_INSTALL/usr lxml==4.9.3
+      pip install --prefix=$CRAFT_PART_INSTALL/usr protobuf==3.20.3
+      pip install --prefix=$CRAFT_PART_INSTALL/usr moddb==0.8.1
+      pip install --prefix=$CRAFT_PART_INSTALL/usr pypresence==4.3.0
+      
   evdev:
     after: [pydeps]
     plugin: python
     source: https://files.pythonhosted.org/packages/05/50/629b011a7f61cb2fca754ea8631575784bf8605a1ec4d6970a010bc54e2b/evdev-1.6.1.tar.gz
     source-checksum: sha256/299db8628cc73b237fc1cc57d3c2948faa0756e2a58b6194b5bf81dc2081f1e3
     build-environment:
-      - PATH: ${SNAPCRAFT_PART_INSTALL}/bin:${PATH}
+      - PATH: ${CRAFT_PART_INSTALL}/bin:${PATH}
       - PYTHONPATH: ""
     stage:
       - -bin/activate*
       - -bin/Activate.ps1
-      - -bin/python
-      - -bin/python3*
+      - -bin/python*
       - -bin/pip*
       - -bin/wheel*
       - -pyvenv.cfg
       - -lib/**/setuptools*
       - -lib/**/pip*
       - -lib/**/wheel*
-      - -share
-      - -include
+      - -share/python-wheels
+      - -share/doc
+      - -share/man
      
   migrator:
     plugin: dump
@@ -165,7 +185,7 @@ parts:
     stage-packages:
       - zenity
     override-pull: |
-      snapcraftctl pull
+      craftctl default
       chmod a+x migrate-config
     stage:
       - bin/migrate-config
@@ -173,13 +193,23 @@ parts:
       - usr/share/zenity
     organize:
       migrate-config: bin/migrate-config
-
-  cleanup:
+    
+  graphics-core22:
     after: [migrator]
+    source: https://github.com/MirServer/graphics-core22.git
+    plugin: dump
+    override-prime: |
+      craftctl default
+      ${CRAFT_PART_SRC}/bin/graphics-core22-cleanup mesa-core22 nvidia-core22
+    prime:
+      - bin/graphics-core22-wrapper
+     
+  cleanup:
+    after: [graphics-core22]
     plugin: nil
-    build-snaps: [core20, gtk-common-themes, gnome-3-38-2004]
+    build-snaps: [core22, gtk-common-themes, gnome-42-2204]
     override-prime: |
       set -eux
-      for snap in "core20" "gtk-common-themes" "gnome-3-38-2004"; do
-          cd "/snap/$snap/current" && find . -type f,l -name *.so.* -exec rm -f "$SNAPCRAFT_PRIME/{}" \;
+      for snap in "core22" "gtk-common-themes" "gnome-42-2204"; do
+          cd "/snap/$snap/current" && find . -type f,l -name *.so.* -exec rm -f "$CRAFT_PRIME/{}" \;
       done   
