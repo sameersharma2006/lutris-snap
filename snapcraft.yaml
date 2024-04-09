@@ -5,46 +5,20 @@ grade: stable
 confinement: strict
 compression: lzo
 license: GPL-3.0-only
+source-code: https://git.launchpad.net/lutris-snap/tree/snapcraft.yaml
+issues:
+  - https://github.com/sameersharma2006/lutris-snap/issues
+  - https://bugs.launchpad.net/lutris-snap
 architectures:
   - build-on: amd64
-
-assumes:
-  - snapd2.56
-  - command-chain
-
-lint:
-  ignore:
-    - library:
-        - usr/lib/*/libmagic.so*
-        - usr/lib/*/libXss.so*
-        - usr/lib/*/libSDL2-2.0.so*
-        - usr/lib/*/libffi.so*
-        - usr/lib/*/libdecor-0.so*
-        - usr/lib/*/libXv.so*
-
-layout:
-  /usr/share/libdrm:
-    bind: $SNAP/graphics/libdrm
-  /usr/share/drirc.d:
-    symlink: $SNAP/graphics/drirc.d
-  /usr/share/X11/XErrorDB:
-    symlink: $SNAP/graphics/X11/XErrorDB
-  /usr/share/X11/locale:
-    symlink: $SNAP/graphics/X11/locale
-  /usr/share/zenity:
-    bind: $SNAP/usr/share/zenity 
-
+  
 apps: 
   lutris:
-    command-chain:
-      - bin/migrate-config
-      - bin/graphics-core22-wrapper
     command: usr/bin/lutris
     extensions: [gnome]
     environment:
       APPIMAGE_EXTRACT_AND_RUN: 1
       PYTHONPATH: ${SNAP}/lib/python3.10/site-packages:${SNAP}/usr/lib/python3/dist-packages:${SNAP}/usr/local/lib/python3.10/dist-packages
-      TMPDIR: $XDG_RUNTIME_DIR
     common-id: net.lutris.Lutris 
     desktop: usr/share/applications/net.lutris.Lutris.desktop 
     plugs:
@@ -67,17 +41,6 @@ apps:
       - system-observe
       - upower-observe
 
-plugs:
-  graphics-core22:
-    interface: content
-    target: $SNAP/graphics
-    default-provider: mesa-core22
-  lutris-user-config:
-    interface: personal-files
-    read:
-      - $HOME/.config/lutris
-      - $HOME/.local/share/lutris   
-      
 slots:    
   lutris:
     interface: dbus
@@ -87,6 +50,7 @@ slots:
 parts:
   lutris:
     source: https://github.com/lutris/lutris.git
+    source-tag: v0.5.16
     plugin: meson
     parse-info: [usr/share/metainfo/net.lutris.Lutris.metainfo.xml]
     meson-parameters:
@@ -99,117 +63,84 @@ parts:
     after: [lutris]
     plugin: nil
     stage-packages:
-      - pciutils
-      - libpci3
-      - libmagic1
-      - x11-xserver-utils
-      - mesa-utils
-      - mesa-utils-bin
-      - vulkan-tools
-      - psmisc 
-      - cabextract 
+      - psmisc
+      - cabextract
+      - unzip
       - p7zip
-      - libmspack0
-      - libxss1
-      - unzip 
-      - libsdl2-2.0-0
-      - libdecor-0-0
-      - libxv1
+      - curl
+      - fluid-soundfont-gs
+      - mesa-utils
+      - vulkan-tools 
     prime:
-      - usr/bin/lspci
-      - usr/bin/setpci
-      - usr/bin/xrandr
-      - usr/sbin/update-pciids
-      - usr/lib/*/libpci.so*
-      - usr/lib/*/libmagic.so*
-      - usr/bin/glx*
-      - usr/bin/vk*
-      - usr/bin/vulkaninfo
       - bin/fuser
+      - usr/bin/killall
+      - usr/bin/peekfd
+      - usr/bin/prtstat
+      - usr/bin/pslog
+      - usr/bin/pstree
+      - usr/share/menu/psmisc
+      - usr/share/pixmaps/pstree16.xpm
+      - usr/share/pixmaps/pstree32.xpm
       - usr/bin/cabextract
+      - usr/share/icons/cab_extract.png
+      - usr/share/icons/cab_view.png
+      - usr/bin/funzip
+      - usr/bin/unzip
+      - usr/bin/unzipsfx
+      - usr/bin/zipgrep
+      - usr/bin/zipinfo
+      - usr/lib/mime/packages/unzip
       - usr/bin/7zr
       - usr/bin/p7zip
-      - usr/lib/p7zip
-      - usr/lib/*/libmspack*
-      - usr/lib/*/libXss.so*
-      - usr/bin/funzip
-      - usr/bin/unzip*
-      - usr/bin/zip*
-      - usr/lib/mime/packages/unzip
-      - usr/lib/*/libSDL2-2.0.so*
-      - usr/lib/*/libdecor-0.so*
-      - usr/lib/*/libXv.so*
-    
-  pydeps:
+      - usr/lib/p7zip/7zr
+      - usr/bin/curl
+      - usr/share/zsh/vendor-completions/_curl
+      - usr/share/sounds/sf2/FluidR3_GS.sf2
+      - usr/share/mesa-demos
+      - usr/bin/vkcube
+      - usr/bin/vkcubepp
+      - usr/bin/vulkaninfo
+
+  py-deps:
     after: [deps]
     plugin: nil
-    override-build: |
-      craftctl default
-      pip install --prefix=$CRAFT_PART_INSTALL/usr Pillow==10.0.0
-      pip install --prefix=$CRAFT_PART_INSTALL/usr requests==2.31.0
-      pip install --prefix=$CRAFT_PART_INSTALL/usr Yaml8==0.1.2
-      pip install --prefix=$CRAFT_PART_INSTALL/usr distro==1.8.0 
-      pip install --prefix=$CRAFT_PART_INSTALL/usr setproctitle==1.3.2 
-      pip install --prefix=$CRAFT_PART_INSTALL/usr python-magic==0.4.27
-      pip install --prefix=$CRAFT_PART_INSTALL/usr lxml==4.9.3
-      pip install --prefix=$CRAFT_PART_INSTALL/usr protobuf==3.20.3
-      pip install --prefix=$CRAFT_PART_INSTALL/usr moddb==0.8.1
-      pip install --prefix=$CRAFT_PART_INSTALL/usr pypresence==4.3.0
-      
-  evdev:
-    after: [pydeps]
-    plugin: python
-    source: https://files.pythonhosted.org/packages/05/50/629b011a7f61cb2fca754ea8631575784bf8605a1ec4d6970a010bc54e2b/evdev-1.6.1.tar.gz
-    source-checksum: sha256/299db8628cc73b237fc1cc57d3c2948faa0756e2a58b6194b5bf81dc2081f1e3
-    build-environment:
-      - PATH: ${CRAFT_PART_INSTALL}/bin:${PATH}
-      - PYTHONPATH: ""
-    stage:
-      - -bin/activate*
-      - -bin/Activate.ps1
-      - -bin/python*
-      - -bin/pip*
-      - -bin/wheel*
-      - -pyvenv.cfg
-      - -lib/**/setuptools*
-      - -lib/**/pip*
-      - -lib/**/wheel*
-      - -share/python-wheels
-      - -share/doc
-      - -share/man
-     
-  migrator:
-    plugin: dump
-    after: [evdev]
-    source: .
     stage-packages:
-      - zenity
-    override-pull: |
-      craftctl default
-      chmod a+x migrate-config
-    stage:
-      - bin/migrate-config
-      - usr/bin/zenity
-      - usr/share/zenity
-    organize:
-      migrate-config: bin/migrate-config
-    
-  graphics-core22:
-    after: [migrator]
-    source: https://github.com/MirServer/graphics-core22.git
-    plugin: dump
-    override-prime: |
-      craftctl default
-      ${CRAFT_PART_SRC}/bin/graphics-core22-cleanup mesa-core22 nvidia-core22
+      - python3-pil
+      - python3-distro
+      - python3-requests
+      - python3-protobuf
+      - python3-lxml
+      - python3-yaml
+      - python3-gi
+      - python3-gi-cairo
+      - python3-setproctitle
+      - python3-magic
+      - python3-dbus
+      - python3-evdev
     prime:
-      - bin/graphics-core22-wrapper
-     
-  cleanup:
-    after: [graphics-core22]
+      - usr/lib/python3
+
+  wine-deps:
+    after: [py-deps]
     plugin: nil
-    build-snaps: [core22, gtk-common-themes, gnome-42-2204]
-    override-prime: |
-      set -eux
-      for snap in "core22" "gtk-common-themes" "gnome-42-2204"; do
-          cd "/snap/$snap/current" && find . -type f,l -name *.so.* -exec rm -f "$CRAFT_PRIME/{}" \;
-      done   
+    stage-packages:
+      - libwine
+      - winetricks
+      - fluidsynth
+      - gamemode
+    prime:
+      - usr/lib/*/wine
+      - usr/share/wine
+      - usr/bin/winetricks
+      - usr/share/bash-completion/completions/winetricks
+      - usr/share/icons/hicolor/scalable/apps/winetricks.svg
+      - usr/share/metainfo/winetricks.appdata.xml
+      - usr/bin/fluidsynth
+      - usr/games
+      - usr/bin/gamemoded
+      - usr/lib/systemd/user/gamemoded.service
+      - usr/libexec/cpugovctl
+      - usr/libexec/gpuclockctl
+      - usr/share/dbus-1/services/com.feralinteractive.GameMode.service
+      - usr/share/gamemode
+      - usr/lib/*/libgamemode
