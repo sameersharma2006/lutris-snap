@@ -146,6 +146,7 @@ parts:
       - libexif12
       - libinstpatch-1.0-2
       - libusb-1.0-0
+      - libmagic1
     prime:
       - usr/lib/*/libmspack*
       - usr/lib/*/libSDL2*
@@ -169,6 +170,7 @@ parts:
       - usr/lib/*/libexif*
       - usr/lib/*/libinstpatch*
       - usr/lib/*/libusb*
+      - usr/lib/*/libmagic*
       
   wine-deps:
     after: [sundry]
