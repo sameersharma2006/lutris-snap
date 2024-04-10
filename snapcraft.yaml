@@ -145,6 +145,7 @@ parts:
       - libsndio7.0
       - libexif12
       - libinstpatch-1.0-2
+      - libusb-1.0-0
     prime:
       - usr/lib/*/libmspack*
       - usr/lib/*/libSDL2*
@@ -167,7 +168,8 @@ parts:
       - usr/lib/*/libsndio*
       - usr/lib/*/libexif*
       - usr/lib/*/libinstpatch*
-    
+      - usr/lib/*/libusb*
+      
   wine-deps:
     after: [sundry]
     plugin: nil
