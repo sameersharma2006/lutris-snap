@@ -120,8 +120,44 @@ parts:
     prime:
       - usr/lib/python3
 
-  wine-deps:
+  sundry:
     after: [py-deps]
+    plugin: nil
+    stage-packages:
+      - libfaudio0
+      - libpcap0.8
+      - ocl-icd-libopencl1
+      - libopenal1
+      - libgphoto2-port12
+      - libgphoto2-6
+      - libvkd3d1
+      - libprotobuf23
+      - libraqm0
+      - libimagequant0
+      - libvulkan1
+      - libinih1
+      - libfluidsynth3
+      - libsdl2-2.0-0
+      - libmspack0
+    prime:
+      - usr/lib/*/libmspack*
+      - usr/lib/*/libSDL2*
+      - usr/lib/*/libfluidsynth*
+      - usr/lib/*/libinih*
+      - usr/lib/*/libvulkan*
+      - usr/lib/*/libimagequant*
+      - usr/lib/*/libraqm*
+      - usr/lib/*/libprotobuf*
+      - usr/lib/*/libvkd3d*
+      - lib/udev
+      - usr/lib/*/libgphoto2*
+      - usr/lib/*/libopenal*
+      - usr/lib/*/libpcap*
+      - usr/lib/*/libFAudio*
+      - usr/lib/*/libOpenCL*
+    
+  wine-deps:
+    after: [sundry]
     plugin: nil
     stage-packages:
       - libwine
