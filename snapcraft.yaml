@@ -139,6 +139,12 @@ parts:
       - libfluidsynth3
       - libsdl2-2.0-0
       - libmspack0
+      - libstb0
+      - libdecor-0-0
+      - libxss1
+      - libsndio7.0
+      - libexif12
+      - libinstpatch-1.0-2
     prime:
       - usr/lib/*/libmspack*
       - usr/lib/*/libSDL2*
@@ -155,6 +161,12 @@ parts:
       - usr/lib/*/libpcap*
       - usr/lib/*/libFAudio*
       - usr/lib/*/libOpenCL*
+      - usr/lib/*/libstb*
+      - usr/lib/*/libdecor*
+      - usr/lib/*/libXss*
+      - usr/lib/*/libsndio*
+      - usr/lib/*/libexif*
+      - usr/lib/*/libinstpatch*
     
   wine-deps:
     after: [sundry]
