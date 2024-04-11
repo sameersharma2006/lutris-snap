@@ -35,6 +35,8 @@ layout:
     symlink: $SNAP/usr/bin/vkcube
   /usr/share/vulkan:
     bind: $SNAP/usr/share/vulkan
+  /usr/lib/i386-linux-gnu:
+    bind: $SNAP/usr/lib/i386-linux-gnu
   /usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0:
     symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0
   /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel.so:
