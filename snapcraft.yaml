@@ -19,8 +19,7 @@ lint:
   ignore:
     - classic
     - library:
-      - usr/lib/$CRAFT_ARCH_TRIPLET/*
-      - usr/bin/*
+      - usr/*
 
 package-repositories:
   - type: apt
