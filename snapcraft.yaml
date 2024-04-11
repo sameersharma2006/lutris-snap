@@ -21,6 +21,15 @@ lint:
     - library:
       - usr/*
 
+package-repositories:
+  - type: apt
+    formats: [deb]
+    architectures: [i386]
+    components: [main]
+    suites: [jammy]
+    key-id: F23C5A6CF475977595C89F51BA6932366A755776
+    url: https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu
+
 layout:
   /usr/bin/vkcube:
     symlink: $SNAP/usr/bin/vkcube
