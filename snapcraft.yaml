@@ -9,10 +9,8 @@ source-code: https://git.launchpad.net/lutris-snap/tree/snapcraft.yaml
 issues:
   - https://github.com/sameersharma2006/lutris-snap/issues
   - https://bugs.launchpad.net/lutris-snap
-
 architectures:
-  - build-on: [amd64]
-    build-for: [amd64]
+  - build-on: amd64
 
 assumes:
   - snapd2.60
@@ -23,20 +21,21 @@ lint:
     - library:
       - usr/*
 
-package-repositories:
-  - type: apt
-    formats: [deb]
-    architectures: [i386]
-    components: [main]
-    suites: [jammy]
-    key-id: F23C5A6CF475977595C89F51BA6932366A755776
-    url: https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu
-
 layout:
   /usr/bin/vkcube:
     symlink: $SNAP/usr/bin/vkcube
   /usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0:
     symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel.so:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel.so
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel_hasvk.so:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel_hasvk.so
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_lvp.so:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_lvp.so
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_radeon.so:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_radeon.so
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_virtio.so:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_virtio.so
 
 apps:
   lutris:
@@ -67,9 +66,6 @@ apps:
       - system-observe
       - upower-observe
 
-  bash:
-    command: bin/bash
-
 slots:
   lutris:
     interface: dbus
@@ -86,7 +82,7 @@ parts:
       - --prefix=/usr
     override-pull: |
       craftctl default
-      sed -e 's|Icon=lutris|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/lutris.svg|' -i  share/applications/net.lutris.Lutris.desktop
+      sed -e 's|Icon=lutris|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/lutris.svg|' -i  share/applications/net.lutris.Lutris.desktop 
 
   deps:
     after: [lutris]
@@ -98,27 +94,20 @@ parts:
       - p7zip-full
       - p7zip-rar
       - curl
-      - kitty
-      - bash
       - fluid-soundfont-gs
       - pciutils
       - libpci3
       - mesa-vulkan-drivers
       - vulkan-tools
-      - libxcb1:i386
-      - libxcb1:amd64
-      - libgl1:i386
-      - libvulkan1:i386
-      - libvulkan1:amd64
+      - libvulkan1
+      - libvkd3d1
     prime:
       - bin/fuser
-      - bin/bash
       - usr/bin/killall
       - usr/bin/peekfd
       - usr/bin/prtstat
       - usr/bin/pslog
       - usr/bin/pstree
-      - usr/bin/kitty
       - usr/share/menu/psmisc
       - usr/share/pixmaps/pstree16.xpm
       - usr/share/pixmaps/pstree32.xpm
@@ -147,9 +136,6 @@ parts:
       - usr/lib/*/libVk*
       - usr/lib/*/libvulkan*
       - usr/lib/*/libvkd3d*
-      - usr/lib/*/libxcb*
-      - usr/lib/*/libX11*
-
 
   py-deps:
     after: [deps]
@@ -235,7 +221,6 @@ parts:
       - fluidsynth
       - gamemode
       - wine64
-      - wine
     prime:
       - usr/lib/*/wine
       - usr/share/wine
@@ -252,7 +237,8 @@ parts:
       - usr/share/dbus-1/services/com.feralinteractive.GameMode.service
       - usr/share/gamemode
       - usr/lib/*/libgamemode
-      - usr/lib/wine/wine*
+      - usr/lib/wine/wine64
+      - usr/lib/wine/wineserver64
 
   cleanup:
     after:
