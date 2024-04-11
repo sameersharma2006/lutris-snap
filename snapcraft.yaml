@@ -19,7 +19,7 @@ lint:
   ignore:
     - classic
     - library:
-      - usr
+      - usr/*
 
 apps: 
   lutris:
