@@ -201,7 +201,6 @@ parts:
       - libxcb1:amd64
       - libgl1:i386
       - libvulkan1:i386
-      - libvulkan1:amd64
     prime:
       - usr/lib/*/libmspack*
       - usr/lib/*/libSDL2*
