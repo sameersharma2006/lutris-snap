@@ -33,6 +33,8 @@ package-repositories:
 layout:
   /usr/bin/vkcube:
     symlink: $SNAP/usr/bin/vkcube
+  /usr/share/vulkan:
+    bind: $SNAP/usr/share/vulkan
   /usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0:
     symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0
   /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel.so:
@@ -145,6 +147,7 @@ parts:
       - usr/lib/*/libVk*
       - usr/lib/*/libvulkan*
       - usr/lib/*/libvkd3d*
+      - usr/share/drirc.d
 
   py-deps:
     after: [deps]
