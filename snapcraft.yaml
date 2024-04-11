@@ -15,6 +15,12 @@ architectures:
 assumes:
   - snapd2.60
 
+lint:
+  ignore:
+    - classic
+    - library:
+      - usr
+
 apps: 
   lutris:
     command: usr/bin/lutris
