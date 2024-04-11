@@ -47,6 +47,8 @@ layout:
     symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_radeon.so
   /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_virtio.so:
     symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_virtio.so
+  /usr/lib/p7zip/7z:
+    symlink: $SNAP/usr/lib/p7zip/7z
 
 apps:
   lutris:
@@ -55,6 +57,7 @@ apps:
     environment:
       APPIMAGE_EXTRACT_AND_RUN: 1
       PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages
+      DISABLE_WAYLAND: 1
     common-id: net.lutris.Lutris
     desktop: usr/share/applications/net.lutris.Lutris.desktop
     plugs:
@@ -66,7 +69,6 @@ apps:
       - audio-record
       - audio-playback
       - bluez
-      - browser-support
       - joystick
       - removable-media
       - optical-drive
@@ -93,7 +95,7 @@ parts:
       - --prefix=/usr
     override-pull: |
       craftctl default
-      sed -e 's|Icon=lutris|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/lutris.svg|' -i  share/applications/net.lutris.Lutris.desktop 
+      sed -e 's|Icon=lutris|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/lutris.svg|' -i  share/applications/net.lutris.Lutris.desktop
 
   deps:
     after: [lutris]
@@ -167,22 +169,30 @@ parts:
       - python3-evdev
     prime:
       - usr/lib/python3
-  
-  vetus:
+
+  tls:
     after: [py-deps]
+    plugin: nil
+    stage-packages:
+      - libgnutls30:i386
+    prime:
+      - usr/lib
+
+  vetus:
+    after: [tls]
     plugin: nil
     stage-packages:
       - libxcb1:i386
       - libgl1:i386
       - libvulkan1:i386
-      - libgnutls30:i386
+      - libglx0:i386
+      - libglvnd0:1386
     prime:
       - usr/lib/*/libxcb*
-      - usr/lib/*/libX11*
+      - usr/lib/*/libX*
       - usr/lib/*/libvulkan*
       - usr/lib/*/libGL*
-      - usr/lib/*/libgnutls*
-      
+
   sundry:
     after: [vetus]
     plugin: nil
@@ -242,6 +252,10 @@ parts:
       - usr/share/mesa-demos
       - usr/bin/kitty
       - usr/lib/*/libxcb*
+      - usr/lib/*/libXau*
+      - usr/lib/*/libXdmcp*
+      - usr/lib/*/libbsd*
+      - usr/lib/*/libmd*
 
   wine-deps:
     after: [sundry]
