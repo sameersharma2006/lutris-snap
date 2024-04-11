@@ -21,6 +21,12 @@ lint:
     - library:
       - usr/*
 
+layout:
+  /usr/bin/vkcube:
+    symlink: $SNAP/usr/bin/vkcube
+  /usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0:
+    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0
+
 apps: 
   lutris:
     command: usr/bin/lutris
