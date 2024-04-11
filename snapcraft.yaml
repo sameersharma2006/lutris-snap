@@ -78,11 +78,13 @@ parts:
       - p7zip-full
       - p7zip-rar
       - curl
-      - fluid-soundfont-gs
-      - mesa-utils
-      - vulkan-tools 
+      - fluid-soundfont-gs 
       - pciutils
       - libpci3
+      - mesa-vulkan-drivers
+      - vulkan-tools
+      - libvulkan1
+      - libvkd3d1
     prime:
       - bin/fuser
       - usr/bin/killall
@@ -107,15 +109,18 @@ parts:
       - usr/bin/curl
       - usr/share/zsh/vendor-completions/_curl
       - usr/share/sounds/sf2/FluidR3_GS.sf2
-      - usr/share/mesa-demos
-      - usr/bin/vkcube
-      - usr/bin/vkcubepp
-      - usr/bin/vulkaninfo
       - usr/bin/lspci
       - usr/bin/setpci
       - usr/sbin/update-pciids
       - usr/lib/*/libpci*
-
+      - usr/bin/vk*
+      - usr/bin/vulkaninfo
+      - usr/share/vulkan
+      - usr/bin/mesa*
+      - usr/lib/*/libVk*
+      - usr/lib/*/libvulkan*
+      - usr/lib/*/libvkd3d*
+      
   py-deps:
     after: [deps]
     plugin: nil
@@ -145,11 +150,9 @@ parts:
       - libopenal1
       - libgphoto2-port12
       - libgphoto2-6
-      - libvkd3d1
       - libprotobuf23
       - libraqm0
       - libimagequant0
-      - libvulkan1
       - libinih1
       - libfluidsynth3
       - libsdl2-2.0-0
@@ -164,16 +167,15 @@ parts:
       - libmagic1
       - x11-xserver-utils
       - mesa-utils-bin
+      - mesa-utils
     prime:
       - usr/lib/*/libmspack*
       - usr/lib/*/libSDL2*
       - usr/lib/*/libfluidsynth*
       - usr/lib/*/libinih*
-      - usr/lib/*/libvulkan*
       - usr/lib/*/libimagequant*
       - usr/lib/*/libraqm*
       - usr/lib/*/libprotobuf*
-      - usr/lib/*/libvkd3d*
       - lib/udev
       - usr/lib/*/libgphoto2*
       - usr/lib/*/libopenal*
@@ -192,6 +194,7 @@ parts:
       - usr/bin/glx*
       - usr/bin/es2*
       - usr/bin/egl*
+      - usr/share/mesa-demos
       
   wine-deps:
     after: [sundry]
@@ -201,6 +204,7 @@ parts:
       - winetricks
       - fluidsynth
       - gamemode
+      - wine64
     prime:
       - usr/lib/*/wine
       - usr/share/wine
@@ -217,6 +221,8 @@ parts:
       - usr/share/dbus-1/services/com.feralinteractive.GameMode.service
       - usr/share/gamemode
       - usr/lib/*/libgamemode
+      - usr/lib/wine/wine64
+      - usr/lib/wine/wineserver64
       
   cleanup:
     after:
