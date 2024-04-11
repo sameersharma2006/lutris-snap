@@ -19,7 +19,8 @@ lint:
   ignore:
     - classic
     - library:
-      - usr/*
+      - usr/lib/$CRAFT_ARCH_TRIPLET/*
+      - usr/bin/*
 
 package-repositories:
   - type: apt
@@ -35,12 +36,6 @@ layout:
     symlink: $SNAP/usr/bin/vkcube
   /usr/share/vulkan:
     bind: $SNAP/usr/share/vulkan
-  /usr/lib/i386-linux-gnu/libGL.so.1.7.0:
-    symlink: $SNAP/usr/lib/i386-linux-gnu/libGL.so.1.7.0
-  /usr/lib/i386-linux-gnu/libvulkan.so.1.3.204:
-    symlink: $SNAP/usr/lib/i386-linux-gnu/libvulkan.so.1.3.204
-  /usr/lib/i386-linux-gnu/libgnutls.so.30.31.0:
-    symlink: $SNAP/usr/lib/i386-linux-gnu/libgnutls.so.30.31.0  
   /usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0:
     symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0
   /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel.so:
@@ -183,7 +178,11 @@ parts:
       - libvulkan1:i386
       - libgnutls30:i386
     prime:
-      - usr/lib
+      - usr/lib/*/libxcb*
+      - usr/lib/*/libX11*
+      - usr/lib/*/libvulkan*
+      - usr/lib/*/libGL*
+      - usr/lib/*/libgnutls*
       
   sundry:
     after: [vetus]
