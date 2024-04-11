@@ -196,6 +196,12 @@ parts:
       - x11-xserver-utils
       - mesa-utils-bin
       - mesa-utils
+      - kitty
+      - libxcb1:i386
+      - libxcb1:amd64
+      - libgl1:i386
+      - libvulkan1:i386
+      - libvulkan1:amd64
     prime:
       - usr/lib/*/libmspack*
       - usr/lib/*/libSDL2*
@@ -223,6 +229,9 @@ parts:
       - usr/bin/es2*
       - usr/bin/egl*
       - usr/share/mesa-demos
+      - usr/bin/kitty
+      - usr/lib/*/libxcb*
+      - usr/lib/*/libX11*
 
   wine-deps:
     after: [sundry]
@@ -239,7 +248,6 @@ parts:
       - usr/bin/winetricks
       - usr/share/bash-completion/completions/winetricks
       - usr/share/icons/hicolor/scalable/apps/winetricks.svg
-      - usr/share/metainfo/winetricks.appdata.xml
       - usr/bin/fluidsynth
       - usr/games
       - usr/bin/gamemoded
