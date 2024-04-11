@@ -167,9 +167,22 @@ parts:
       - python3-evdev
     prime:
       - usr/lib/python3
-
-  sundry:
+  
+  vetus:
     after: [py-deps]
+    plugin: nil
+    stage-packages:
+      - libxcb1:i386
+      - libgl1:i386
+      - libvulkan1:i386
+    prime:
+      - usr/lib/*/libxcb*
+      - usr/lib/*/libX11*
+      - usr/lib/*/libvulkan*
+      - usr/lib/*/libGL*
+      
+  sundry:
+    after: [vetus]
     plugin: nil
     stage-packages:
       - libfaudio0
@@ -197,10 +210,7 @@ parts:
       - mesa-utils-bin
       - mesa-utils
       - kitty
-      - libxcb1:i386
-      - libxcb1:amd64
-      - libgl1:i386
-      - libvulkan1:i386
+      - libxcb1
     prime:
       - usr/lib/*/libmspack*
       - usr/lib/*/libSDL2*
@@ -230,7 +240,6 @@ parts:
       - usr/share/mesa-demos
       - usr/bin/kitty
       - usr/lib/*/libxcb*
-      - usr/lib/*/libX11*
 
   wine-deps:
     after: [sundry]
