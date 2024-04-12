@@ -47,8 +47,8 @@ layout:
     symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_radeon.so
   /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_virtio.so:
     symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_virtio.so
-  /usr/lib/p7zip/7z:
-    symlink: $SNAP/usr/lib/p7zip/7z
+  /usr/lib/p7zip:
+    symlink: $SNAP/usr/lib/p7zip
 
 apps:
   lutris:
