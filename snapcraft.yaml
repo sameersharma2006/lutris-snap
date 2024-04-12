@@ -185,8 +185,6 @@ parts:
       - libxcb1:i386
       - libgl1:i386
       - libvulkan1:i386
-      - libglx0:i386
-      - libglvnd0:1386
     prime:
       - usr/lib/*/libxcb*
       - usr/lib/*/libX*
