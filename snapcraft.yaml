@@ -58,6 +58,7 @@ apps:
       APPIMAGE_EXTRACT_AND_RUN: 1
       PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages
       DISABLE_WAYLAND: 1
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/i386-linux-gnu
     common-id: net.lutris.Lutris
     desktop: usr/share/applications/net.lutris.Lutris.desktop
     plugs:
