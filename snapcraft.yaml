@@ -259,14 +259,9 @@ parts:
     after: [sundry]
     plugin: nil
     stage-packages:
-      - libwine
       - winetricks
       - fluidsynth
-      - wine64
       - wine
-      - gamemode
-      - libgamemode0
-      - gamemode-daemon
     prime:
       - usr/lib/*/wine
       - usr/share/wine
@@ -276,20 +271,15 @@ parts:
       - usr/bin/fluidsynth
       - usr/lib/wine
       - usr/bin/wine-stable
-      - usr/share/icons/hicolor/scalable/apps/wine-stable.svg
-      - usr/share/doc/wine/examples/wine.desktop
-      - usr/share/gamemode
-      - usr/lib/*/libgamemode*
-      - usr/bin/gamemoded
-      - usr/games
-      - usr/lib/systemd/user/gamemoded.service
-      - usr/libexec
-      - usr/share/dbus-1
-      - usr/share/polkit-1
-
+      
+  gamemode:
+    after: [wine-deps]
+    plugin: nil
+    stage-packages:
+      - gamemode
+      
   cleanup:
-    after:
-      - wine-deps
+    after: [gamemode]
     plugin: nil
     build-snaps:
       - gnome-42-2204
