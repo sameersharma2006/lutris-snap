@@ -1,7 +1,7 @@
 
 > # **_Lutris-Snap_**
 >
->> **_Lutris Snap is built & maintained here_**
+>> **_Snap Store Link ;_**
 
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/lutris)
 
