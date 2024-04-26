@@ -268,19 +268,19 @@ parts:
       - usr/share/icons/hicolor/scalable/apps/winetricks.svg
       - usr/lib/wine
       - usr/bin/wine-stable
-      
+
   fluidsynth:
     after: [wine-deps]
     plugin: nil
     stage-packages:
       - fluidsynth
-    
+
   gamemode:
     after: [fluidsynth]
     plugin: nil
     stage-packages:
       - gamemode
-      
+
   cleanup:
     after: [gamemode]
     plugin: nil
