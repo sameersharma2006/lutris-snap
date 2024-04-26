@@ -276,7 +276,7 @@ parts:
       - fluidsynth
     
   gamemode:
-    after: [wine-deps]
+    after: [fluidsynth]
     plugin: nil
     stage-packages:
       - gamemode
