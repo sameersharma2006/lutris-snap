@@ -205,7 +205,6 @@ parts:
       - libraqm0
       - libimagequant0
       - libinih1
-      - libfluidsynth3
       - libsdl2-2.0-0
       - libmspack0
       - libstb0
@@ -224,7 +223,6 @@ parts:
     prime:
       - usr/lib/*/libmspack*
       - usr/lib/*/libSDL2*
-      - usr/lib/*/libfluidsynth*
       - usr/lib/*/libinih*
       - usr/lib/*/libimagequant*
       - usr/lib/*/libraqm*
@@ -260,7 +258,6 @@ parts:
     plugin: nil
     stage-packages:
       - winetricks
-      - fluidsynth
       - wine
     prime:
       - usr/lib/*/wine
@@ -268,10 +265,15 @@ parts:
       - usr/bin/winetricks
       - usr/share/bash-completion/completions/winetricks
       - usr/share/icons/hicolor/scalable/apps/winetricks.svg
-      - usr/bin/fluidsynth
       - usr/lib/wine
       - usr/bin/wine-stable
       
+  fluidsynth:
+    after: [wine-deps]
+    plugin: nil
+    stage-packages:
+      - fluidsynth
+    
   gamemode:
     after: [wine-deps]
     plugin: nil
