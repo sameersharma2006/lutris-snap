@@ -1,5 +1,5 @@
 name: lutris
-base: core22
+base: core24
 adopt-info: lutris
 grade: stable
 confinement: strict
@@ -9,8 +9,8 @@ source-code: https://git.launchpad.net/lutris-snap/tree/snapcraft.yaml
 issues:
   - https://github.com/sameersharma2006/lutris-snap/issues
   - https://bugs.launchpad.net/lutris-snap
-architectures:
-  - build-on: amd64
+platforms:
+  amd64:
 
 assumes:
   - snapd2.60
@@ -21,32 +21,7 @@ lint:
     - library:
       - usr/*
 
-package-repositories:
-  - type: apt
-    formats: [deb]
-    architectures: [i386]
-    components: [main]
-    suites: [jammy]
-    key-id: F23C5A6CF475977595C89F51BA6932366A755776
-    url: https://ppa.launchpadcontent.net/deadsnakes/ppa/ubuntu
-
 layout:
-  /usr/bin/vkcube:
-    symlink: $SNAP/usr/bin/vkcube
-  /usr/share/vulkan:
-    bind: $SNAP/usr/share/vulkan
-  /usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0:
-    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvkd3d.so.1.1.0
-  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel.so:
-    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel.so
-  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel_hasvk.so:
-    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_intel_hasvk.so
-  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_lvp.so:
-    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_lvp.so
-  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_radeon.so:
-    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_radeon.so
-  /usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_virtio.so:
-    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libvulkan_virtio.so
   /usr/lib/p7zip:
     symlink: $SNAP/usr/lib/p7zip
 
@@ -57,7 +32,6 @@ apps:
     environment:
       APPIMAGE_EXTRACT_AND_RUN: 1
       PYTHONPATH: ${SNAP}/usr/lib/python3/dist-packages
-      DISABLE_WAYLAND: 1
     common-id: net.lutris.Lutris
     desktop: usr/share/applications/net.lutris.Lutris.desktop
     plugs:
@@ -68,7 +42,6 @@ apps:
       - network-status
       - audio-record
       - audio-playback
-      - bluez
       - joystick
       - removable-media
       - optical-drive
@@ -98,8 +71,18 @@ parts:
       craftctl default
       sed -e 's|Icon=lutris|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/lutris.svg|' -i  share/applications/net.lutris.Lutris.desktop
 
-  deps:
+  enable-i386:
     after: [lutris]
+    plugin: nil
+    override-build: |
+      craftctl default
+      if [ "$CRAFT_ARCH_TRIPLET_BUILD_FOR" = "x86_64-linux-gnu" ]; then
+        dpkg --add-architecture i386
+        apt update
+      fi
+
+  deps:
+    after: [enable-i386]
     plugin: nil
     stage-packages:
       - psmisc
@@ -111,10 +94,6 @@ parts:
       - fluid-soundfont-gs
       - pciutils
       - libpci3
-      - mesa-vulkan-drivers
-      - vulkan-tools
-      - libvulkan1
-      - libvkd3d1
     prime:
       - bin/fuser
       - usr/bin/killall
@@ -143,14 +122,6 @@ parts:
       - usr/bin/setpci
       - usr/sbin/update-pciids
       - usr/lib/*/libpci*
-      - usr/bin/vk*
-      - usr/bin/vulkaninfo
-      - usr/share/vulkan
-      - usr/bin/mesa*
-      - usr/lib/*/libVk*
-      - usr/lib/*/libvulkan*
-      - usr/lib/*/libvkd3d*
-      - usr/share/drirc.d
 
   py-deps:
     after: [deps]
@@ -175,17 +146,19 @@ parts:
     after: [py-deps]
     plugin: nil
     stage-packages:
-      - libgnutls30:i386
+      - on amd64:
+        - libgnutls30:i386
     prime:
       - usr/lib
 
-  vetus:
+  deps32:
     after: [tls]
     plugin: nil
     stage-packages:
-      - libxcb1:i386
-      - libgl1:i386
-      - libvulkan1:i386
+      - on amd64:
+        - libxcb1:i386
+        - libgl1:i386
+        - libvulkan1:i386
     prime:
       - usr/lib/*/libxcb*
       - usr/lib/*/libX*
@@ -193,7 +166,7 @@ parts:
       - usr/lib/*/libGL*
 
   sundry:
-    after: [vetus]
+    after: [deps32]
     plugin: nil
     stage-packages:
       - libfaudio0
@@ -254,23 +227,15 @@ parts:
       - usr/lib/*/libbsd*
       - usr/lib/*/libmd*
 
-  wine-deps:
+  wine:
     after: [sundry]
     plugin: nil
     stage-packages:
       - winetricks
       - wine
-    prime:
-      - usr/lib/*/wine
-      - usr/share/wine
-      - usr/bin/winetricks
-      - usr/share/bash-completion/completions/winetricks
-      - usr/share/icons/hicolor/scalable/apps/winetricks.svg
-      - usr/lib/wine
-      - usr/bin/wine-stable
 
   fluidsynth:
-    after: [wine-deps]
+    after: [wine]
     plugin: nil
     stage-packages:
       - fluidsynth
@@ -284,11 +249,9 @@ parts:
   cleanup:
     after: [gamemode]
     plugin: nil
-    build-snaps:
-      - gnome-42-2204
-      - core22
+    build-snaps: [gnome-46-2404, core24, mesa-2404]
     override-prime: |
       set -eux
-      for snap in "gnome-42-2204" "core22"; do
-          cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$CRAFT_PRIME/{}" \;
+      for snap in "gnome-46-2404" "core24" "mesa-2404"; do
+        cd "/snap/$snap/current" && find . -type f,l -exec rm -f "$CRAFT_PRIME/{}" \;
       done
